@@ -1,0 +1,16 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Philips Illuminate lights",
+        "description": "Enter the IP address of the lights' Wi-Fi box. Give it a fixed IP in your router first.",
+        "data": { "host": "IP address" }
+      }
+    },
+    "error": { "cannot_connect": "No answer from the lights at that address (TCP port 5577)." },
+    "abort": { "already_configured": "These lights are already set up." }
+  },
+  "entity": {
+    "number": { "speed": { "name": "Show speed" } }
+  }
+}
