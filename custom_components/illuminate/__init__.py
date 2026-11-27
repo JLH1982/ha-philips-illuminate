@@ -17,7 +17,7 @@ from .protocol import IlluminateBox, State
 
 _LOGGER = logging.getLogger(__name__)
 DOMAIN = "illuminate"
-PLATFORMS = [Platform.LIGHT, Platform.NUMBER]
+PLATFORMS = [Platform.LIGHT, Platform.NUMBER, Platform.SELECT]
 SCAN_INTERVAL = timedelta(seconds=15)
 DEFAULT_SPEED = 16  # what the box reported when first probed
 

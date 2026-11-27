@@ -18,7 +18,7 @@ against a real box (firmware 6) in November 2026. Not official documentation.
 | Multi-colour (static) | `88 <n> R G B … 55` | n colours |
 | Custom show | `99` + 16×RGB (unused = `01 02 03`) + speed + type (`3A` jump / `3C` gradual / `3B` strobe-ish) + `FF 66` | 53 bytes |
 | Music-mode colour | `78 R G B 00 EE` | |
-| Set bulb count | `DD <n/25> <255-n/25> F0 22` | Setup wizard; don't send casually |
+| Set bulb count | `DD <n/25> <255-n/25> F0 22` | n = 25-300 in steps of 25 (the app's choices). The app reads the status back to check it took |
 
 There is no general brightness command, so dimming only applies to warm white.
 

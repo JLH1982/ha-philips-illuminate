@@ -24,6 +24,7 @@ class ParseState(unittest.TestCase):
         self.assertTrue(s.is_on)
         self.assertEqual(s.show, 10)
         self.assertEqual(s.speed, 16)
+        self.assertEqual(s.bulbs, 25)
         self.assertEqual(s.firmware, 6)
 
     def test_off_and_static_colour(self):
@@ -52,6 +53,18 @@ class Commands(unittest.TestCase):
         for bad in (0, 22):
             with self.assertRaises(ValueError):
                 protocol.cmd_show(bad, 10)
+
+    def test_bulb_count(self):
+        self.assertEqual(protocol.cmd_bulb_count(25).hex(), "dd01fef022")
+        self.assertEqual(protocol.cmd_bulb_count(300).hex(), "dd0cf3f022")
+        for bad in (0, 10, 30, 325):
+            with self.assertRaises(ValueError):
+                protocol.cmd_bulb_count(bad)
+
+    def test_bulb_count_in_status(self):
+        # A real reply from a box set to 75 lights (3 x 25)
+        s = protocol.parse_state(bytes.fromhex("66f124412125ff00a10003" "06" "99"))
+        self.assertEqual(s.bulbs, 75)
 
     def test_effect_names(self):
         self.assertEqual(len(protocol.EFFECTS), 21)

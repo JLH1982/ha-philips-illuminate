@@ -7,6 +7,7 @@ directly on your network.
 - **On/off**, a **colour wheel** and **warm white** (RGBW), with brightness
 - All **21 built-in shows** as light effects, named and numbered like in the Philips app
 - A **show speed** slider (0-100 %)
+- The **number of lights** on the string (25-300), which the box needs so the shows fit the string
 - While a show runs, the light's icon becomes 5 little bulbs in that show's colours
 - Changes made in the Philips app show up in Home Assistant within 15 seconds
 
@@ -32,12 +33,13 @@ folder and restart Home Assistant.
 Settings → Devices & services → **Add integration** → **Philips Illuminate** → enter the box's IP address.
 Repeat for each box.
 
-You get two entities per box:
+You get three entities per box:
 
 | Entity | What it does |
 |---|---|
 | `light.illuminate_lights` | On/off, colour + warm white, brightness, and the shows as effects |
 | `number.illuminate_lights_show_speed` | Show speed; changing it restarts the running show at the new speed |
+| `select.illuminate_lights_number_of_lights` | How many lights are on the string (25-300, in steps of 25), like the app's "Number of lights" setting. It's under *Configuration* on the device page |
 
 ### Example: run a show at sunset
 

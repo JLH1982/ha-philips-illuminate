@@ -17,6 +17,8 @@ MODE_STATIC = 0x41
 SHOW_FIRST = 0x25  # show 1
 SPEED_FASTEST = 1
 SPEED_SLOWEST = 54  # firmware >= 4; older boxes use 31
+BULB_STEP = 25  # the box stores the number of lights in steps of 25
+BULB_COUNTS = list(range(25, 301, BULB_STEP))  # the choices the phone app offers: 25-300
 
 SHOWS = [
     "Chasing multi pattern from center to ends",
@@ -54,6 +56,7 @@ class State:
     green: int
     blue: int
     white: int
+    bulbs: int
     firmware: int
 
     @property
@@ -75,6 +78,7 @@ def parse_state(data: bytes) -> State:
         green=data[7],
         blue=data[8],
         white=data[9],
+        bulbs=data[10] * BULB_STEP,
         firmware=data[11],
     )
 
@@ -92,6 +96,14 @@ def cmd_show(show: int, speed: int) -> bytes:
         raise ValueError(f"show must be 1-{len(SHOWS)}")
     speed = max(SPEED_FASTEST, min(SPEED_SLOWEST, speed))
     return bytes([0xBB, SHOW_FIRST + show - 1, speed, 0x44])
+
+
+def cmd_bulb_count(count: int) -> bytes:
+    """Tell the box how many lights are on the string (25-300, a multiple of 25)."""
+    if count not in BULB_COUNTS:
+        raise ValueError(f"number of lights must be one of {BULB_COUNTS}")
+    n = count // BULB_STEP
+    return bytes([0xDD, n, 0xFF - n, 0xF0, 0x22])
 
 
 def speed_to_percent(speed: int) -> int:
